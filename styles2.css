@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #338AFF;
+    color: #fff;
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+main {
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #0055A4;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border: 2px solid #000;
+    transition: transform 0.2s;
+    font-size: 1.5em;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
+
+.quiz-container {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.question {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+}
+
+.option {
+    margin-bottom: 10px;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+input[type="radio"]:checked + label {
+    background-color: #00FF00; /* Green color for the correct answer */
+}

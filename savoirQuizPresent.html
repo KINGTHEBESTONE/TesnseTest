@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        main {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4em;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #fff;
+            color: #000;
+            text-decoration: none;
+            border: 2px solid #000;
+            transition: transform 0.2s;
+            font-size: 1.2em;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        #translation-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .translation {
+            margin-bottom: 10px;
+        }
+
+        #quiz-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #dots-container {
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 1em;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+    <title>FrenchTense Quiz</title>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Savoir (to know)</h1>
+
+
+        <a href="#" class="button" onclick="startQuiz()" id="start-quiz-button">Start Quiz</a>
+
+        <div id="quiz-container">
+            <div id="translated-word"></div>
+            <input type="text" id="answerInput" placeholder="Type your answer" onkeydown="checkKeyPress(event)">
+        </div>
+        <div id="translation-container">
+            <div class="translation">Je sais - I know</div>
+            <div class="translation">Tu sais - You know</div>
+            <div class="translation">Il sait - He knwos</div>
+            <div class="translation">Elle sait - She knwos</div>
+            <div class="translation">Nous savons - We know</div>
+            <div class="translation">Vous savez - You know (plural)</div>
+            <div class="translation">Ils savent - They know  (m)</div>
+            <div class="translation">Elles savent - They know (f)</div>
+            <!-- Add more translations as needed -->
+        </div>
+        <div id="dots-container"></div>
+
+        <div id="result"></div>
+    </main>
+
+    <script>
+      let answers = ["Je sais", "Tu sias", "Il sait", "Elle sait", "Nous savons", "Vous savez", "Ils savent", "Elles savent"]; // Add your answers here
+        let translations = ["I know", "You know", "He knows", "She knows", "We know", "You know (plural)", "They know (m)", "They know (f)"]; // Add your translations here
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = [];
+
+        function startQuiz() {
+            document.getElementById('start-quiz-button').style.display = 'none';
+            document.getElementById('translation-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('translated-word').innerText = translations[currentQuestion];
+            document.getElementById('answerInput').focus();
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.toLowerCase();
+            const correctAnswer = answers[currentQuestion].toLowerCase();
+
+            const dotsContainer = document.getElementById('dots-container');
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+
+            if (userAnswer === correctAnswer) {
+                dot.classList.add('green');
+                correctAnswers++;
+            } else {
+                dot.classList.add('red');
+                wrongAnswers.push({ 
+                    question: translations[currentQuestion], 
+                    userAnswer: userAnswer, 
+                    correctAnswer: answers[currentQuestion] 
+                });
+            }
+
+            dotsContainer.appendChild(dot);
+
+            currentQuestion++;
+
+            if (currentQuestion < answers.length) {
+                document.getElementById('translated-word').innerText = translations[currentQuestion];
+                document.getElementById('answerInput').value = '';
+                document.getElementById('answerInput').focus();
+            } else {
+                document.getElementById('quiz-container').style.display = 'none';
+                showResult();
+            }
+        }
+
+        function checkKeyPress(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        }
+
+        function showResult() {
+            const resultElement = document.getElementById('result');
+            const fraction = `${correctAnswers}/${answers.length}`;
+            resultElement.innerText = `Result: ${fraction}`;
+
+            if (wrongAnswers.length > 0) {
+                resultElement.innerHTML += "<h2>Words you got wrong:</h2>";
+                for (const wrongAnswer of wrongAnswers) {
+                    resultElement.innerHTML += `<p><b>Question:</b> ${wrongAnswer.question}<br><b>Your Answer:</b> ${wrongAnswer.userAnswer}<br><b>Correct Answer:</b> ${wrongAnswer.correctAnswer}</p>`;
+                }
+            }
+
+            resultElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
